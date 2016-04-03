@@ -5,6 +5,7 @@ package exceptions;
  */
 public class EmptyDenominationArrayException extends  IllegalArgumentException{
     public EmptyDenominationArrayException() {
+        super();
     }
 
     public EmptyDenominationArrayException(String s) {

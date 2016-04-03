@@ -1,6 +1,9 @@
+import exceptions.NotDecreasingDenominationsException;
+import exceptions.NotPositiveDenominationException;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.Collection;
+import java.util.EmptyStackException;
 import java.util.LinkedHashMap;
 
 /**
@@ -15,8 +18,16 @@ public class CashMachineKernel {
     public CashMachineKernel(@NotNull final Integer[] denominations) {
 
         if (denominations.length == 0) {
-            throw new IllegalArgumentException();
+            throw new EmptyStackException();
         }
+
+        for (int i = 0; i < denominations.length; i++) {
+            if (denominations[i] <= 0)
+                throw new NotPositiveDenominationException();
+            if (i != denominations.length - 1 && denominations[i] < denominations[i+1])
+                throw new NotDecreasingDenominationsException();
+        }
+
 
         storedCash = new LinkedHashMap<>(denominations.length);
 
