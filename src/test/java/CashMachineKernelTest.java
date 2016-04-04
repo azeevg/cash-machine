@@ -49,6 +49,14 @@ public class CashMachineKernelTest {
         Assert.assertEquals(cashMachine.getState().intValue(), 0);
     }
 
+    @Test
+    public void getStateNegative() throws Exception {
+        final CashMachineKernel cashMachine = new CashMachineKernel(DENOMINATIONS);
+        cashMachine.depositCash(100, 4);
+        cashMachine.depositCash(5000, 1);
+        cashMachine.depositCash(10, 10);
+        Assert.assertTrue(cashMachine.getState() >= 0);
+    }
 
     // depositCash tests
     @Test(expected = WrongDenominateValueException.class)
@@ -103,6 +111,16 @@ public class CashMachineKernelTest {
         );
     }
 
+    @Test
+    public void getStoredCashNull() {
+        final CashMachineKernel cashMachine = new CashMachineKernel(DENOMINATIONS);
+        System.out.println(cashMachine.getStoredCash());
+        LinkedHashMap<Integer, Integer> storedCash = cashMachine.getStoredCash();
+        storedCash.put(5000, 10000);
+        System.out.println(cashMachine.getStoredCash());
+        Assert.assertNotEquals(cashMachine.getStoredCash().get(5000).intValue(), 10000);
+    }
+
     // withdrawCash
     @Test(expected = NotPositiveValueException.class)
     public void withdrawCashZeroAmount() throws Exception {
@@ -123,6 +141,4 @@ public class CashMachineKernelTest {
         final CashMachineKernel cashMachine = new CashMachineKernel(DENOMINATIONS);
         cashMachine.withdrawCash(0);
     }
-
-
 }
