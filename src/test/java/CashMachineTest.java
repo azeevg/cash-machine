@@ -65,9 +65,10 @@ public class CashMachineTest {
         cashMachine.put(100, 2);
         cashMachine.put(10, 6);
         cashMachine.put(1, 5);
-        Assert.assertEquals(cashMachine.getState().intValue(), 100  * 2 + 10 * 6 + 500 * 1 + 1 * 5);
+        Assert.assertEquals(cashMachine.getState().intValue(), 100 * 2 + 10 * 6 + 500 * 1 + 1 * 5);
     }
-        // put tests
+
+    // put tests
     @Test(expected = WrongDenominateValueException.class)
     public void putWrongDenominateValue() throws Exception {
         final CashMachine cashMachine = new CashMachine(DENOMINATIONS);
