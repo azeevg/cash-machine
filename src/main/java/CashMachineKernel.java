@@ -1,14 +1,12 @@
-import exceptions.NotDecreasingDenominationsException;
-import exceptions.NotPositiveDenominationException;
+import exceptions.EmptyDenominationArrayException;
+import exceptions.NotDecreasingDenominationValuesException;
+import exceptions.NotPositiveValueException;
+import exceptions.NotUniqueDenominationValuesException;
 import org.jetbrains.annotations.NotNull;
 
+import java.util.Arrays;
 import java.util.Collection;
-import java.util.EmptyStackException;
 import java.util.LinkedHashMap;
-
-/**
- * Created by gleb on 4/3/16.
- */
 
 public class CashMachineKernel {
 
@@ -18,26 +16,30 @@ public class CashMachineKernel {
     public CashMachineKernel(@NotNull final Integer[] denominations) {
 
         if (denominations.length == 0) {
-            throw new EmptyStackException();
+            throw new EmptyDenominationArrayException();
         }
 
-        for (int i = 0; i < denominations.length; i++) {
-            if (denominations[i] <= 0)
-                throw new NotPositiveDenominationException();
-            if (i != denominations.length - 1 && denominations[i] < denominations[i+1])
-                throw new NotDecreasingDenominationsException();
+        for (Integer denomination : denominations) {
+            if (denomination <= 0)
+                throw new NotPositiveValueException();
         }
 
+        for (int i = 0; i < denominations.length - 1; i++) {
+            if (denominations[i] < denominations[i + 1])
+                throw new NotDecreasingDenominationValuesException();
+            if (denominations[i].equals(denominations[i + 1]))
+                throw new NotUniqueDenominationValuesException();
+        }
 
         storedCash = new LinkedHashMap<>(denominations.length);
-
-        // check no repeated numbers and negatives
-//        Arrays.stream(denominations).forEach(value -> storedCash.put(value, 0));
+        Arrays.stream(denominations).forEach(value -> storedCash.put(value, 0));
     }
 
 
-    public long getState() {
-        return 42;
+    public Integer getState() {
+        final Integer[] amount = {0};
+        storedCash.forEach((denomination, count) -> amount[0] += denomination * count);
+        return amount[0];
     }
 
     @NotNull
@@ -47,13 +49,11 @@ public class CashMachineKernel {
     }
 
 
-    public long depositCash(@NotNull final Integer denomination, @NotNull final Integer count) {
+    public void depositCash(@NotNull final Integer denomination, @NotNull final Integer count) {
         int i = denomination;
-        return getState();
     }
 
-    @NotNull
-    public Collection<Integer> withdrawCash(@NotNull final Long amount) {
+    public Collection<Integer> withdrawCash(final int amount) {
         return storedCash.values();
     }
 
