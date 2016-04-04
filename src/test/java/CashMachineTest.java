@@ -101,16 +101,16 @@ public class CashMachineTest {
         Assert.assertEquals(cashMachine.getState().intValue(), 10 * 2);
     }
 
-    // getStoredCash test
+    // getDump test
     @Test
-    public void getStoredCash() throws Exception {
+    public void getDump() throws Exception {
         final CashMachine cashMachine = new CashMachine(DENOMINATIONS);
         Arrays.stream(DENOMINATIONS).forEach(denomination ->
                 cashMachine.put(denomination, 1));
-        final LinkedHashMap<Integer, Integer> initialStoredCash = cashMachine.getStoredCash();
+        final LinkedHashMap<Integer, Integer> initialStoredCash = cashMachine.getDump();
         Arrays.stream(DENOMINATIONS).forEach(denomination ->
                 cashMachine.put(denomination, 1));
-        final LinkedHashMap<Integer, Integer> storedCash = cashMachine.getStoredCash();
+        final LinkedHashMap<Integer, Integer> storedCash = cashMachine.getDump();
 
         Arrays.stream(DENOMINATIONS).forEach(denomination -> {
                     final int current = storedCash.get(denomination);
@@ -121,13 +121,13 @@ public class CashMachineTest {
     }
 
     @Test
-    public void getStoredCashNull() {
+    public void getDumpNull() {
         final CashMachine cashMachine = new CashMachine(DENOMINATIONS);
-        System.out.println(cashMachine.getStoredCash());
-        LinkedHashMap<Integer, Integer> storedCash = cashMachine.getStoredCash();
+        System.out.println(cashMachine.getDump());
+        LinkedHashMap<Integer, Integer> storedCash = cashMachine.getDump();
         storedCash.put(5000, 10000);
-        System.out.println(cashMachine.getStoredCash());
-        Assert.assertNotEquals(cashMachine.getStoredCash().get(5000).intValue(), 10000);
+        System.out.println(cashMachine.getDump());
+        Assert.assertNotEquals(cashMachine.getDump().get(5000).intValue(), 10000);
     }
 
     // get
@@ -148,7 +148,7 @@ public class CashMachineTest {
     @Test(expected = NoCashException.class)
     public void getEmptyCashMachine() throws Exception {
         final CashMachine cashMachine = new CashMachine(DENOMINATIONS);
-        cashMachine.get(0);
+        cashMachine.get(1);
     }
 
     @SuppressWarnings("PointlessArithmeticExpression")
@@ -172,7 +172,7 @@ public class CashMachineTest {
 
         Assert.assertTrue(receivedCash.equals(cash));
 
-        final LinkedHashMap<Integer, Integer> storedCash = cashMachine.getStoredCash();
+        final LinkedHashMap<Integer, Integer> storedCash = cashMachine.getDump();
         Assert.assertEquals(storedCash.get(500), Integer.valueOf(0));
         Assert.assertEquals(storedCash.get(100), Integer.valueOf(1));
         Assert.assertEquals(storedCash.get(10), Integer.valueOf(5));
