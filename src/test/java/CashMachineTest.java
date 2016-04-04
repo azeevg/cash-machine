@@ -23,7 +23,7 @@ public class CashMachineTest {
         new CashMachine(denominations);
     }
 
-    @Test(expected = NotDecreasingDenominationValuesException.class)
+    @Test(expected = NotDecreasingValuesException.class)
     public void notDecreasingDenominationsException() {
         Integer[] denominations = new Integer[]{1000, 500, 600};
         new CashMachine(denominations);
@@ -35,7 +35,7 @@ public class CashMachineTest {
         new CashMachine(denominations);
     }
 
-    @Test(expected = NotUniqueDenominationValuesException.class)
+    @Test(expected = NotUniqueValuesException.class)
     public void NotUniqueDenominationsException() {
         Integer[] denominations = new Integer[]{100, 50, 50, 30};
         new CashMachine(denominations);
@@ -123,10 +123,8 @@ public class CashMachineTest {
     @Test
     public void getDumpNull() {
         final CashMachine cashMachine = new CashMachine(DENOMINATIONS);
-        System.out.println(cashMachine.getDump());
         LinkedHashMap<Integer, Integer> storedCash = cashMachine.getDump();
         storedCash.put(5000, 10000);
-        System.out.println(cashMachine.getDump());
         Assert.assertNotEquals(cashMachine.getDump().get(5000).intValue(), 10000);
     }
 
@@ -187,9 +185,10 @@ public class CashMachineTest {
         cashMachine.put(10, 6);
         cashMachine.put(1, 5);
 
+        final Integer originalState = cashMachine.getState();
         final Integer amount = 1000;
         final LinkedHashMap<Integer, Integer> cash = cashMachine.get(amount);
-        Assert.assertEquals(amount, CashMachine.calculateAmount(cash));
+        Assert.assertEquals(originalState, CashMachine.calculateAmount(cash));
 
         final LinkedHashMap<Integer, Integer> receivedCash = new LinkedHashMap<>(DENOMINATIONS.length);
         receivedCash.put(500, 1);
@@ -200,4 +199,5 @@ public class CashMachineTest {
         Assert.assertTrue(receivedCash.equals(cash));
         Assert.assertTrue(cashMachine.getState().equals(0));
     }
+
 }
