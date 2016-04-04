@@ -1,9 +1,6 @@
 package exceptions;
 
-/**
- * Created by gleb on 4/3/16.
- */
-public class EmptyDenominationArrayException extends  IllegalArgumentException{
+public class EmptyDenominationArrayException extends IllegalArgumentException {
     public EmptyDenominationArrayException() {
         super();
     }
