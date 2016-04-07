@@ -83,9 +83,6 @@ public class CashMachineMessageHandler {
             case "state":
                 response = state();
                 break;
-            case "":
-                response = null;
-                break;
             default:
                 response = bundle.getString("err.incorrectInput") + "\n" + help();
                 break;
