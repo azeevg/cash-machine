@@ -113,12 +113,10 @@ public class CashMachineTest {
                 cashMachine.put(denomination, 1));
         final LinkedHashMap<Integer, Integer> storedCash = cashMachine.getDump();
 
-        Arrays.stream(DENOMINATIONS).forEach(denomination -> {
-                    final int current = storedCash.get(denomination);
-                    final int initial = initialStoredCash.get(denomination);
-                    Assert.assertEquals(current / 2, initial);
-                }
-        );
+        storedCash.forEach((denomination, count) -> {
+            final int initialCount = initialStoredCash.get(denomination);
+            Assert.assertEquals(count / 2, initialCount);
+        });
     }
 
     @Test
