@@ -6,7 +6,6 @@ import java.util.*;
 @SuppressWarnings("WeakerAccess")
 public class CashMachine {
 
-    //    private static final Integer[] denominations = {5000, 1000, 500, 100, 50, 25, 10, 5, 3, 1};
     private final LinkedHashMap<Integer, Integer> storedCash;
 
     public CashMachine(@NotNull final Integer[] denominations)
@@ -58,7 +57,7 @@ public class CashMachine {
         storedCash.put(denomination, storedCash.get(denomination) + count);
     }
 
-    public LinkedHashMap<Integer, Integer> get(final Integer amount)
+    public LinkedHashMap<Integer, Integer> get(@NotNull final Integer amount)
             throws NoCashException, NotPositiveValueException {
         if (amount <= 0)
             throw new NotPositiveValueException();
@@ -69,6 +68,7 @@ public class CashMachine {
         final LinkedHashMap<Integer, Integer> cash = new LinkedHashMap<>(storedCash.size() / 2);
 
         storedCash.forEach((denomination, maxCount) -> {
+
             if (denomination <= amount - sum[0] && maxCount != 0) {
                 final int neededCount = (amount - sum[0]) / denomination;
                 final int count = (maxCount < neededCount) ? maxCount : neededCount;

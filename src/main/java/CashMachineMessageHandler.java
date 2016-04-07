@@ -1,9 +1,12 @@
 import org.jetbrains.annotations.NotNull;
 
+import java.io.InputStream;
+import java.io.OutputStream;
+
 public class CashMachineMessageHandler {
 
     private final CashMachine cashMachine;
-    public CashMachineMessageHandler(@NotNull Integer[] denominations) {
+    public CashMachineMessageHandler(@NotNull final Integer[] denominations) {
         cashMachine = new CashMachine(denominations);
     }
 
